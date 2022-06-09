@@ -1,39 +1,95 @@
-var playerSelection = prompt("Rock, Paper, or Scissors");
+const choices = ["rock", "paper", "scissors"]
+const winnerCount = [];
 
-
-function computerPlay (){
-
-    // Generates a random number 0, 1, 2 //
-    
-        let randomNumber = Math.floor(Math.random() * 3);
-    
-        if (randomNumber == 0){
-            return rock;
-        } else if (randomNumber == 1){
-            return paper;
-        } else if (randomNumber == 2) {
-            return scissors;
-        } else {
-            return 'Incorrect';
-        }
-    
+function game(){ // play game (5 rounds) - console based
+    for (let i = 1; i <= 5; i++){
+        playRound(i);
     }
 
+    displayWins();
 
+}
+
+function playRound(round) {
+    const playerSelection = playerChoice();
+    const computerSelection = computerChoice();
+    console.log(computerSelection);
+    const winner = checkWinner(playerSelection, computerSelection);
+    winnerCount.push(winnerCount);
+
+    console.log(winner);
+    logRound(playerSelection, computerSelection, winner, round);
+
+}
+
+function playerChoice(){
+//get input from player
+    let input = prompt ("Type rock, paper or scissors");
+
+    while(input == null){
+        input = prompt ("Type rock, paper or scissors")
+    }
+
+    input = input.toLowerCase();
+
+    let check = validateInput(input)
+
+    while (check == false){
+        input = prompt ("Type rock, paper or scissors with correct spelling");
+        while(input == null){
+            input = prompt ("Type rock, paper or scissors")
+        }
+
+        input = input.toLowerCase();
+        check = validateInput(input);
+    }
+return input;
+
+}
+
+function computerChoice(){
+    //random computer input
+    return choices[Math.floor(Math.random()*choices.length)];
+}
+
+function validateInput(choice){
+    if(choices.includes(choice)){
+        return true
+    }
+
+    return false
     
-var Game = function(playerSelection, computerPlay){
-   var rock = "Rock";
-   var paper = "Paper";
-   var scissors = "Scissors";
-   if(playerSelection === computerPlay){
-       alert("Tie Game!");
-   }else{
-       if(playerSelection === rock && computerPlay === scissors || playerSelection === paper && computerPlay === rock  ||playerSelection === scissors && computerPlay === paper ){
-           console.log("Player One Wins!");
-       }else{
-           console.log("Player Two Wins!");
-       }
-   }
-};
+}
 
-Game(playerSelection,computerPlay);
+function checkWinner(playerChoice, computerChoice){
+    if(playerChoice === computerChoice){
+        return "Tie Game!";
+    } else if ((playerChoice === "rock" && computerChoice == "scissors") || 
+               (playerChoice === "scissors" && computerChoice == "paper") || 
+               (playerChoice === "paper" && computerChoice == "rock")){
+        return "Player wins this round!";
+    } else {
+        return "Computer wins this round!";
+    }
+
+}
+
+function displayWins(){
+    let playerWins = winnerCount.filter((winner) => winner == "Player wins this round!");
+    let computerWins = winnerCount.filter((winner) => winner == "Computer wins this round!");
+    let ties = winnerCount.filter((winner) => winner == "Tie Game!");
+
+    console.log("Results:");
+    console.log("Player Wins:", playerWins);
+    console.log("Computer Wins:", computerWins);
+    console.log("Ties:", ties);
+}
+
+function logRound(playerChoice, computerChoice, winner, round){
+    console.log('Round:', round);
+    console.log('Player Choice:', playerChoice);
+    console.log("Computer Choice:", computerChoice);
+    console.log(winner, 'Next Round!');
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+}
+
